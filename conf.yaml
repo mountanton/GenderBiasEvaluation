@@ -1,0 +1,7 @@
+# LLM Configuration for Gender Bias Benchmark
+llm:
+  model:  deepseek  #deepseek, gpt-4o-mini, gpt-4o-2024-08-06
+
+api_keys:
+  deepseek: YOUR KEY
+  gpt: YOUR KEY
