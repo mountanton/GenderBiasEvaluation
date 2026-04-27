@@ -1,4 +1,4 @@
-# 📘 Gender Bias Benchmark (Multi-Topic Version)
+# 📘 Gender Bias Benchmark and Evaluation
 
 ## Overview
 
