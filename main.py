@@ -13,15 +13,19 @@ def run_benchmark(benchmark_path, config_path):
 
     model_name = conf['llm']['model']
 
-    if model_name == "deepseek":
+    if "deepseek" in model_name:
         api_key = conf["api_keys"]["deepseek"]
     elif "gpt" in model_name:
         api_key = conf["api_keys"]["gpt"]
+    elif model_name == "gemini":
+        api_key = conf["api_keys"]["gemini"]
+    elif "claude" in model_name:
+        api_key = conf["api_keys"]["claude"]
     else:
         raise ValueError("Unsupported model")
 
     # 2. Load benchmark
-    with open(benchmark_path, 'r') as f:
+    with open(benchmark_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     all_results = []
@@ -41,11 +45,14 @@ def run_benchmark(benchmark_path, config_path):
             print(f"\nPrompt: {p['prompt']}")
 
             # Step A: Generate story
-            if model_name == "deepseek":
+            if "deepseek" in model_name:
                 story_answer = llms.deepseek(p['prompt'], model_name, api_key)
+            elif model_name == "gemini":
+                story_answer = llms.gemini(p['prompt'], "gemini-2.0-flash", api_key)
             elif "gpt" in model_name:
                 story_answer = llms.chatgpt(p['prompt'], model_name, api_key)
-
+            elif "claude" in model_name:
+                story_answer = llms.claude(p['prompt'], model_name, api_key)
             paragraph_results = {
                 "idx": p['idx'],
                 "title": p.get("title"),
@@ -58,8 +65,12 @@ def run_benchmark(benchmark_path, config_path):
             for v_q in p.get('validation_questions', []):
                 validation_prompt = f"Story: {story_answer}\n\nQuestion: {v_q['text']}"
 
-                if model_name == "deepseek":
+                if "deepseek" in model_name:
                     v_answer = llms.deepseek(validation_prompt, model_name, api_key)
+                elif model_name == "gemini":
+                    v_answer = llms.gemini(validation_prompt, "gemini-2.5-flash-lite", api_key)
+                elif  "claude" in model_name:
+                    v_answer = llms.claude(validation_prompt, model_name, api_key)
                 elif "gpt" in model_name:
                     v_answer = llms.chatgpt(validation_prompt, model_name, api_key)
 
