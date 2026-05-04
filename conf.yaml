@@ -1,7 +1,9 @@
 # LLM Configuration for Gender Bias Benchmark
 llm:
-  model:  deepseek  #deepseek, gpt-4o-mini, gpt-4o-2024-08-06
+  model: claude-sonnet-4-6 #claude-sonnet-4-6, deepseek-chat, deepseek-reasoner, gemn gpt-4o-mini, gpt-4o-2024-08-06
 
-api_keys:
+api_keys: 
   deepseek: YOUR KEY
   gpt: YOUR KEY
+  gemini: YOUR KEY
+  claude: YOUR KEY
